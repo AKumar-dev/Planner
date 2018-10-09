@@ -1,0 +1,243 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Akshay's Agenda</h1>
+
+    <button onclick="testing()">Add Category</button>
+    
+    
+    
+<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+	  //INSERT YOUR CONFIG FROM FIREBASE HERE
+  };
+  firebase.initializeApp(config);
+</script>
+    <script>
+
+//9PEFHGPEW9UIRGPWHGUPWIO4HPT8H7G5PHW4P8GH4PW8HG4PW8GH4W;HGW4PHG4W;GH4W8GH4WPGHUOUHoiwhrgiuwoprh
+        var readInData = firebase.database().ref();
+            readInData.once('value', function(snapshot) {
+                let tempSnapshot = snapshot.val()
+                var array = Object.keys(tempSnapshot.Personal);
+                console.log(array)
+
+                var parent = document.createElement("div");
+                var h2 = document.createElement("h2")
+                h2.textContent = tempSnapshot.Personal;
+                
+                parent.appendChild(h2);
+                for(let traverse of array){
+                    var tempParent = document.createElement("div");
+                    console.log(tempSnapshot.Personal[traverse]);
+                        
+                        var date1 = document.createElement("input");
+                        date1.value = tempSnapshot.Personal[traverse].date;
+                        var event1 = document.createElement("input");
+                        event1.value = tempSnapshot.Personal[traverse].event;
+                        event1.id = tempSnapshot.Personal[traverse];
+
+                        event1.setAttribute("type", "text");
+                        date1.setAttribute("type", "text");
+
+                        parent.appendChild(date1);
+                        parent.appendChild(event1);
+                
+                        document.getElementById(event1.id).addEventListener('keydown',function(event) {
+                if(event.keyCode == 13) {
+                        var database = firebase.database();
+                        var ref = database.ref(course+'/'+event1.id);
+                        ref.set({
+                            date: date1.value,
+                            event: event1.value
+                        });
+                    newline(tempParent.id, course);
+                }
+                else if(event.keyCode == 40){
+                    var database = firebase.database();
+                    var ref = database.ref(course+'/'+event1.id);
+                    ref.set({
+                        date: date1.value,
+                        event: event1.value
+                    });
+                }
+                else if(event.keyCode == 38){
+                    document.body.removeChild(document.getElementById(parent.id));
+                    var database = firebase.database();
+                    var ref = database.ref(course);
+                    ref.remove();
+                }
+            });
+                
+                }
+
+                document.getElementById(event1.id).addEventListener('keydown',function(event) {
+                if(event.keyCode == 13) {
+                        var database = firebase.database();
+                        var ref = database.ref(course+'/'+event1.id);
+                        ref.set({
+                            date: date1.value,
+                            event: event1.value
+                        });
+                    newline(parent.id, course);
+                }
+                else if(event.keyCode == 40){
+                    var database = firebase.database();
+                    var ref = database.ref(course+'/'+event1.id);
+                    ref.set({
+                        date: date1.value,
+                        event: event1.value
+                    });
+                }
+                else if(event.keyCode == 38){
+                    document.body.removeChild(document.getElementById(parent.id));
+                    var database = firebase.database();
+                    var ref = database.ref(course);
+                    ref.remove();
+                }
+            });
+            });
+                
+                      
+
+
+        var idCount = 1000000;
+        var dateCount = 0;
+        var parentCount = 2000000;
+        var breakCount = 3000000;
+        function testing(){
+            var parent = document.createElement("div");
+            var h2 = document.createElement("h2");
+            var date1 = document.createElement("input");
+            var event1 = document.createElement("input");
+            
+            parent.id = makeparent();
+
+            date1.setAttribute("type", "text");
+            date1.placeholder = "MM/DD";
+            date1.className = "date";
+            date1.size = 6;
+            date1.maxLength = 5;
+            date1.id = makecount();
+
+            event1.setAttribute("type", "text");
+            event1.placeholder = "I better write something in here";
+            event1.className = "event";
+            event1.size = 80;
+            event1.id = makeid();
+
+            var course = prompt("Please enter the name for your category:", "Personal");
+            
+            h2.textContent = course;
+            parent.appendChild(h2);
+            parent.appendChild(date1);
+            parent.appendChild(event1);
+            
+            document.body.appendChild(parent);
+            document.getElementById(date1.id).focus();
+
+            document.getElementById(event1.id).addEventListener('keydown',function(event) {
+                if(event.keyCode == 13) {
+                        var database = firebase.database();
+                        var ref = database.ref(course+'/'+event1.id);
+                        ref.set({
+                            date: date1.value,
+                            event: event1.value
+                        });
+                    newline(parent.id, course);
+                }
+                else if(event.keyCode == 40){
+                    var database = firebase.database();
+                    var ref = database.ref(course+'/'+event1.id);
+                    ref.set({
+                        date: date1.value,
+                        event: event1.value
+                    });
+                }
+                else if(event.keyCode == 38){
+                    document.body.removeChild(document.getElementById(parent.id));
+                    var database = firebase.database();
+                    var ref = database.ref(course);
+                    ref.remove();
+                }
+            });
+        }
+        
+
+            
+        function newline(a, courseInput){
+            var br = document.createElement("br");
+            br.id = makebrid();
+            document.getElementById(a).appendChild(br);
+
+            var date2 = document.createElement("input");
+            var event2 = document.createElement("input");
+            
+            date2.setAttribute("type", "text");
+            date2.placeholder = "MM/DD";
+            date2.className = "date";
+            date2.size = 6;
+            date2.maxLength = 5;
+            date2.id = makecount();
+
+            event2.setAttribute("type", "text");
+            event2.placeholder = "I better write something in here";
+            event2.className = "event";
+            event2.size = 80;
+            event2.id = makeid();
+
+            document.getElementById(a).appendChild(date2);
+            document.getElementById(a).appendChild(event2);
+            
+            document.getElementById(date2.id).focus();
+            document.getElementById(event2.id).addEventListener('keydown',function(event) {
+                if(event.keyCode == 13) {
+                        var database = firebase.database();
+                        var ref = database.ref(courseInput+'/'+event2.id);
+                        ref.set({
+                            date: date2.value,
+                            event: event2.value});
+                    newline(a, courseInput);
+                }
+                else if(event.keyCode == 40){
+                    var database = firebase.database();
+                    var ref = database.ref(courseInput+'/'+event2.id);
+                    ref.set({
+                        date: date2.value,
+                        event: event2.value
+                    })
+                }
+                else if(event.keyCode == 192) {
+                    var database = firebase.database();
+                    document.getElementById(a).removeChild(document.getElementById(event2.id))
+                    document.getElementById(a).removeChild(document.getElementById(date2.id))
+                    document.getElementById(a).removeChild(document.getElementById(br.id));
+                    var ref = database.ref(courseInput+'/'+event2.id);
+                    ref.remove();
+                }
+            
+            });
+
+
+        }
+
+        function makeid() {
+            return ++idCount;
+        }
+        function makecount() {
+            return ++dateCount;
+        }
+        function makeparent(){
+            return ++parentCount;
+        }
+        function makebrid() {
+            return ++breakCount;
+        }
+
+    </script>
+    
+</body>
